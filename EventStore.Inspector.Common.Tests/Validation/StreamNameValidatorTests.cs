@@ -10,7 +10,7 @@ namespace EventStore.Inspector.Common.Tests.Validation
         [TestCase("")]
         [TestCase("  ")]
         [TestCase(null)]
-        public void OnNullOrEmptyStreamThrowsException(string stream)
+        public void Validate_throws_on_null_or_emtpy_stream_name(string stream)
         {
             var validator = new StreamNameValidator();
 
@@ -22,7 +22,7 @@ namespace EventStore.Inspector.Common.Tests.Validation
         [TestCase("$ce-Test")]
         [TestCase("$ce-Test.Something")]
         [TestCase("$et-Test")]
-        public void OnValidStreamNameReturnsStreamName(string stream)
+        public void Validate_returns_stream_name_if_valid(string stream)
         {
             var validator = new StreamNameValidator();
 

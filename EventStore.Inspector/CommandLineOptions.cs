@@ -13,18 +13,18 @@ namespace EventStore.Inspector
         public string Stream { get; set; } = "$ce-all";
 
         [Option('t', "text", Required = false, HelpText = "Text to search the event stream for.")]
-        public IEnumerable<string> SearchText { get; set; }
+        public IEnumerable<string> SearchText { get; set; } = new string[0];
 
         [Option('j', "json", Required = false, HelpText = "Specify a JSON property to search for: <key>:<value>")]
-        public IEnumerable<string> SearchProperty { get; set; }
+        public IEnumerable<string> SearchProperty { get; set; } = new string[0];
 
         [Option('r', "regex", Required = false, HelpText = "Specify a regular expression to search for.")]
-        public IEnumerable<string> SearchRegex { get; set; }
+        public IEnumerable<string> SearchRegex { get; set; } = new string[0];
 
         [Option('o', "output", Required = false, HelpText = "Output formats: text/json (default: text).")]
-        public OutputFormat OutputFormat { get; set; }
+        public OutputFormat OutputFormat { get; set; } = OutputFormat.Text;
 
         [Option('a', "aggregate", Required = false, HelpText = "Specify how to aggregate multiple search functions: or/and (default: or).")]
-        public AggregationMethod Aggregation { get; set; }
+        public AggregationMethod Aggregation { get; set; } = AggregationMethod.Or;
     }
 }

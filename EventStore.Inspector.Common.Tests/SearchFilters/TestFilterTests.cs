@@ -7,7 +7,7 @@ namespace EventStore.Inspector.Common.Tests.SearchFilters
     public class TestFilterTests
     {
         [Test]
-        public void WhenDataContainsSearchPatternIsMatchReturnsTrue()
+        public void IsMatch_true_if_data_contains_text()
         {
             var filter = new TextFilter("abc");
 
@@ -15,7 +15,7 @@ namespace EventStore.Inspector.Common.Tests.SearchFilters
         }
 
         [Test]
-        public void WhenDataDoesNotContainSearchPatternIsMatchReturnsFalse()
+        public void IsMatch_false_if_data_does_not_contain_text()
         {
             var filter = new TextFilter("abc");
 

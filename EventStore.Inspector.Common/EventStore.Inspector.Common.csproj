@@ -5,8 +5,11 @@
   <ItemGroup>
     <Folder Include="SearchFilters\" />
     <Folder Include="Validation\" />
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Processing\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="EventStore.ClientAPI.NetCore" Version="4.1.0.23" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
-﻿using System;
-using CommandLine;
+﻿using CommandLine;
+using EventStore.Inspector.Common;
 
 namespace EventStore.Inspector
 {
@@ -7,11 +7,10 @@ namespace EventStore.Inspector
     {
         public static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed(options => {
-                Console.WriteLine("SearchProperty: " + string.Join(",", options.SearchProperty));
-                Console.WriteLine("SearchText: " + string.Join(",", options.SearchText));
-                Console.WriteLine("OutputFormat: " + options.OutputFormat);
-                Console.WriteLine("Stream: " + options.Stream);
+            Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsedAsync(options => {
+                return Search
+                    .Create(OptionsTranslator.FromEnv())
+                    .For(OptionsTranslator.From(options));
             });
         }
     }
