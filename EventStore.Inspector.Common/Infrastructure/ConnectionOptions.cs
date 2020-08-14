@@ -1,20 +1,25 @@
-﻿namespace EventStore.Inspector.Common.Infrastructure
+﻿using System;
+
+namespace EventStore.Inspector.Common.Infrastructure
 {
     public class ConnectionOptions
     {
         public string ConnectionString { get; }
 
-        /*
-         * ToDo:
-         * 1) batch size
-         * 2) delay after each batch
-         * 3) await user input after batch
-         * 4) read forwards or backwards
-         */
+        public bool ReadForward { get; }
 
-        public ConnectionOptions(string connectionString)
+        public int BatchSize { get; }
+
+        public BatchMode BatchMode { get; }
+
+        public TimeSpan? BatchSleepInterval { get; }
+
+        public ConnectionOptions(string connectionString, bool readForward, int batchSize, BatchMode batchMode, TimeSpan? batchSleepInterval)
         {
             ConnectionString = connectionString;
+            ReadForward = readForward;
+            BatchMode = batchMode;
+            BatchSleepInterval = batchSleepInterval;
         }
     }
 }

@@ -23,11 +23,19 @@ namespace EventStore.Inspector
                 options.Aggregation);
         }
 
-        public static ConnectionOptions FromEnv()
+        public static ConnectionOptions ConnectionOptionsFrom(CommandLineOptions options)
         {
-            var connectionString = Environment.GetEnvironmentVariable("EventStore");
+            TimeSpan? ConvertSleepInterval()
+            {
+                return options.SleepIntervalInSeconds > 0 ? TimeSpan.FromMilliseconds(options.SleepIntervalInSeconds) : default;
+            }
 
-            return new ConnectionOptions(connectionString);
+            return new ConnectionOptions(
+                options.ConnectionString,
+                options.ReadForward,
+                options.BatchSize,
+                options.BatchMode,
+                ConvertSleepInterval());
         }
     }
 }

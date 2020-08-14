@@ -8,9 +8,11 @@ namespace EventStore.Inspector
         public static void Main(string[] args)
         {
             Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsedAsync(options => {
-                return Search
-                    .Create(OptionsTranslator.FromEnv())
-                    .For(OptionsTranslator.From(options));
+
+                var connectionOptions = OptionsTranslator.ConnectionOptionsFrom(options);
+                var settings = OptionsTranslator.From(options);
+
+                return Search.Create(connectionOptions).For(settings);
             });
         }
     }
