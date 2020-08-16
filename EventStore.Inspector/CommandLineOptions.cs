@@ -31,14 +31,14 @@ namespace EventStore.Inspector
         [Option('a', "aggregate", Required = false, HelpText = "Specify how to aggregate multiple search functions: or/and (default: or).")]
         public AggregationMethod Aggregation { get; set; } = AggregationMethod.Or;
 
-        [Option("batch", Required = false, HelpText = "Number of events to process within one batch (default: -1, no limit)")]
-        public int BatchSize { get; set; } = -1;
+        [Option("batch", Required = false, HelpText = "Number of events to process within one batch (default: 100)", Min = 1)]
+        public int BatchSize { get; set; } = 100;
 
         [Option("mode", Required = false, HelpText = "What to do after processing one batch: AwaitUserInput/Sleep/Continue (default: Sleep - sleep for 1s)")]
-        public BatchMode BatchMode { get; set; }
+        public BatchMode BatchMode { get; set; } = BatchMode.Sleep;
 
-        [Option("sleep", Required = false, HelpText = "Number of milliseconds to sleep after each batch (requires Sleep mode, default 500)")]
-        public int SleepIntervalInSeconds { get; set; } = 500;
+        [Option("sleep", Required = false, HelpText = "Number of milliseconds to sleep after each batch (requires Sleep mode, default 500)", Min = 1)]
+        public int SleepIntervalMilliSeconds { get; set; } = 500;
 
         [Option("forward", Required = false, HelpText = "Whether to start processing events from beginning or end of the stream (default: false)")]
         public bool ReadForward { get; set; } = false;

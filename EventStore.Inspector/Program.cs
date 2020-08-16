@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using EventStore.Inspector.Common;
+using Serilog;
 
 namespace EventStore.Inspector
 {
@@ -11,6 +12,8 @@ namespace EventStore.Inspector
 
                 var connectionOptions = OptionsTranslator.ConnectionOptionsFrom(options);
                 var settings = OptionsTranslator.From(options);
+
+                Log.Logger = Logging.For(options);
 
                 return Search.Create(connectionOptions).For(settings);
             });

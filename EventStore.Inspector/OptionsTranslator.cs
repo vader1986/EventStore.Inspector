@@ -25,17 +25,12 @@ namespace EventStore.Inspector
 
         public static ConnectionOptions ConnectionOptionsFrom(CommandLineOptions options)
         {
-            TimeSpan? ConvertSleepInterval()
-            {
-                return options.SleepIntervalInSeconds > 0 ? TimeSpan.FromMilliseconds(options.SleepIntervalInSeconds) : default;
-            }
-
             return new ConnectionOptions(
                 options.ConnectionString,
                 options.ReadForward,
                 options.BatchSize,
                 options.BatchMode,
-                ConvertSleepInterval());
+                options.SleepIntervalMilliSeconds);
         }
     }
 }

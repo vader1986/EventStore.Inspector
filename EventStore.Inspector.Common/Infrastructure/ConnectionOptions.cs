@@ -12,14 +12,14 @@ namespace EventStore.Inspector.Common.Infrastructure
 
         public BatchMode BatchMode { get; }
 
-        public TimeSpan? BatchSleepInterval { get; }
+        public int BatchSleepInterval { get; }
 
-        public ConnectionOptions(string connectionString, bool readForward, int batchSize, BatchMode batchMode, TimeSpan? batchSleepInterval)
+        public ConnectionOptions(string connectionString, bool readForward, int batchSize, BatchMode batchMode, int sleepIntervalMilliSeconds)
         {
             ConnectionString = connectionString;
             ReadForward = readForward;
             BatchMode = batchMode;
-            BatchSleepInterval = batchSleepInterval;
+            BatchSleepInterval = sleepIntervalMilliSeconds;
         }
     }
 }
