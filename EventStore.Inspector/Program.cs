@@ -16,7 +16,7 @@ namespace EventStore.Inspector
                 Log.Logger = Logging.For(options);
 
                 return Search.Create(connectionOptions).For(settings);
-            });
+            }).Wait();
         }
     }
 }

@@ -64,23 +64,30 @@ namespace EventStore.Inspector.Common.Infrastructure
             {
                 events = await ReadStream(connection, stream, offset);
 
-                if (events != null && events.Events != null)
+                if (events?.Events != null)
                 {
                     foreach (var resolvedEvent in events.Events)
                     {
                         onEventRead?.Invoke(EventRecord.From(resolvedEvent));
                     }
 
-                    offset = events.NextEventNumber;
 
-                    if (offset <= 0)
+                    if (events.NextEventNumber == -1)
+                    {
+                        break;
+                    }
+
+                    offset = events.NextEventNumber;
+                        
+                    if (offset < 0)
                     {
                         _log.Warning("Invalid event number {NextEventNumber} for next batch", offset);
                     }
                 }
                 else
                 {
-                    _log.Warning("No events at {Stream}/{EventNumber}", stream, offset);
+                    _log.Error("Failed to read events at {Stream}/{EventNumber}", stream, offset);
+                    break;
                 }
 
                 await BatchBreak();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using System.Threading.Tasks;
 using EventStore.ClientAPI;
 
@@ -8,8 +9,13 @@ namespace EventStore.Inspector.Common.Infrastructure
     {
         private static async Task<IEventStoreConnection> CreateConnection(string connectionString)
         {
-            var connection = EventStoreConnection.Create(connectionString);
+            var builder = new DbConnectionStringBuilder { ConnectionString = connectionString };
+            var uri = new Uri(builder["ConnectTo"].ToString());
+            var settings = ConnectionString.GetConnectionSettings(connectionString);
+            var connection = EventStoreConnection.Create(settings, uri);
+
             await connection.ConnectAsync();
+
             return connection;
         }
 

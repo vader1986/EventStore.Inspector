@@ -19,6 +19,7 @@ namespace EventStore.Inspector.Common.Infrastructure
             ConnectionString = connectionString;
             ReadForward = readForward;
             BatchMode = batchMode;
+            BatchSize = batchSize;
             BatchSleepInterval = sleepIntervalMilliSeconds;
         }
     }
