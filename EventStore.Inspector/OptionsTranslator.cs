@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using EventStore.Inspector.Common;
 using EventStore.Inspector.Common.Infrastructure;
 using EventStore.Inspector.Common.SearchFilters;

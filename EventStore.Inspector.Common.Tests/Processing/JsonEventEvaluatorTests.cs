@@ -9,15 +9,22 @@ namespace EventStore.Inspector.Common.Tests.Processing
     [TestFixture]
     public class JsonEventEvaluatorTests
     {
+        private ISearchFilter _filter;
+        private IEvaluationListener _listener;
+        private JsonEventEvaluator _evaluator;
+
+        [SetUp]
+        public void Before()
+        {
+            _filter = A.Fake<ISearchFilter>();
+            _listener = A.Fake<IEvaluationListener>();
+            _evaluator = new JsonEventEvaluator(_filter, _listener);
+        }
+
         [Test]
         public void Evaluate_on_json_event_notify_listener()
         {
-            var filter = A.Fake<ISearchFilter>();
-            var listener = A.Fake<IEvaluationListener>();
-
-            A.CallTo(() => filter.IsMatch(A<string>.Ignored)).Returns(true);
-
-            var evaluator = new JsonEventEvaluator(filter, listener);
+            A.CallTo(() => _filter.IsMatch(A<string>.Ignored)).Returns(true);
 
             var record = A.Fake<IEventRecord>();
 
@@ -25,20 +32,15 @@ namespace EventStore.Inspector.Common.Tests.Processing
             A.CallTo(() => record.IsJson).Returns(true);
             A.CallTo(() => record.IsMetadata).Returns(false);
 
-            evaluator.Evaluate(record);
+            _evaluator.Evaluate(record);
 
-            A.CallTo(() => listener.OnPositiveEvent(record)).MustHaveHappened();
+            A.CallTo(() => _listener.OnPositiveEvent(record)).MustHaveHappened();
         }
 
         [Test]
         public void Evaluate_on_mismatch_no_notification()
         {
-            var filter = A.Fake<ISearchFilter>();
-            var listener = A.Fake<IEvaluationListener>();
-
-            A.CallTo(() => filter.IsMatch(A<string>.Ignored)).Returns(false);
-
-            var evaluator = new JsonEventEvaluator(filter, listener);
+            A.CallTo(() => _filter.IsMatch(A<string>.Ignored)).Returns(false);
 
             var record = A.Fake<IEventRecord>();
 
@@ -46,20 +48,15 @@ namespace EventStore.Inspector.Common.Tests.Processing
             A.CallTo(() => record.IsJson).Returns(true);
             A.CallTo(() => record.IsMetadata).Returns(false);
 
-            evaluator.Evaluate(record);
+            _evaluator.Evaluate(record);
 
-            A.CallTo(() => listener.OnPositiveEvent(record)).MustNotHaveHappened();
+            A.CallTo(() => _listener.OnPositiveEvent(record)).MustNotHaveHappened();
         }
 
         [Test]
         public void Evaluate_on_invalid_event_no_notification()
         {
-            var filter = A.Fake<ISearchFilter>();
-            var listener = A.Fake<IEvaluationListener>();
-
-            A.CallTo(() => filter.IsMatch(A<string>.Ignored)).Returns(true);
-
-            var evaluator = new JsonEventEvaluator(filter, listener);
+            A.CallTo(() => _filter.IsMatch(A<string>.Ignored)).Returns(true);
 
             var record = A.Fake<IEventRecord>();
 
@@ -67,20 +64,15 @@ namespace EventStore.Inspector.Common.Tests.Processing
             A.CallTo(() => record.IsJson).Returns(true);
             A.CallTo(() => record.IsMetadata).Returns(false);
 
-            evaluator.Evaluate(record);
+            _evaluator.Evaluate(record);
 
-            A.CallTo(() => listener.OnPositiveEvent(record)).MustNotHaveHappened();
+            A.CallTo(() => _listener.OnPositiveEvent(record)).MustNotHaveHappened();
         }
 
         [Test]
         public void Evaluate_on_non_json_event_no_notification()
         {
-            var filter = A.Fake<ISearchFilter>();
-            var listener = A.Fake<IEvaluationListener>();
-
-            A.CallTo(() => filter.IsMatch(A<string>.Ignored)).Returns(true);
-
-            var evaluator = new JsonEventEvaluator(filter, listener);
+            A.CallTo(() => _filter.IsMatch(A<string>.Ignored)).Returns(true);
 
             var record = A.Fake<IEventRecord>();
 
@@ -88,20 +80,15 @@ namespace EventStore.Inspector.Common.Tests.Processing
             A.CallTo(() => record.IsJson).Returns(false);
             A.CallTo(() => record.IsMetadata).Returns(false);
 
-            evaluator.Evaluate(record);
+            _evaluator.Evaluate(record);
 
-            A.CallTo(() => listener.OnPositiveEvent(record)).MustNotHaveHappened();
+            A.CallTo(() => _listener.OnPositiveEvent(record)).MustNotHaveHappened();
         }
 
         [Test]
         public void Evaluate_on_metadata_event_no_notification()
         {
-            var filter = A.Fake<ISearchFilter>();
-            var listener = A.Fake<IEvaluationListener>();
-
-            A.CallTo(() => filter.IsMatch(A<string>.Ignored)).Returns(true);
-
-            var evaluator = new JsonEventEvaluator(filter, listener);
+            A.CallTo(() => _filter.IsMatch(A<string>.Ignored)).Returns(true);
 
             var record = A.Fake<IEventRecord>();
 
@@ -109,9 +96,9 @@ namespace EventStore.Inspector.Common.Tests.Processing
             A.CallTo(() => record.IsJson).Returns(true);
             A.CallTo(() => record.IsMetadata).Returns(true);
 
-            evaluator.Evaluate(record);
+            _evaluator.Evaluate(record);
 
-            A.CallTo(() => listener.OnPositiveEvent(record)).MustNotHaveHappened();
+            A.CallTo(() => _listener.OnPositiveEvent(record)).MustNotHaveHappened();
         }
     }
 }

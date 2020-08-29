@@ -21,8 +21,23 @@ namespace EventStore.Inspector.Common
 
         public async Task For(Options options)
         {
+            IEvaluationListener OutputGenerator(IOutputStream stream)
+            {
+                switch (options.OutputFormat)
+                {
+                    case OutputFormat.Text:
+                        return new TextOutputGenerator(stream);
+                    case OutputFormat.Json:
+                        return new JsonOutputGenerator(stream);
+                }
+
+                return default;
+            }
+
+            var outputStream = new ConsoleOutputStream();
+            var output = OutputGenerator(outputStream);
+
             var aggregatedFilter = new AggregatedSearchFilter(options.AggregationMethod, options.SearchFilters);
-            var output = new TextOutputGenerator();
             var evaluator = new JsonEventEvaluator(aggregatedFilter, output);
 
             await _connectionWrapper.ConnectToStreamAsync(options.Stream, evaluator.Evaluate);
