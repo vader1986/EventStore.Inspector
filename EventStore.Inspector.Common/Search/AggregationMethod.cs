@@ -1,4 +1,4 @@
-﻿namespace EventStore.Inspector.Common
+﻿namespace EventStore.Inspector.Common.Search
 {
     public enum AggregationMethod
     {

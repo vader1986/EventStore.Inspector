@@ -1,5 +1,6 @@
 ﻿using CommandLine;
-using EventStore.Inspector.Common;
+using EventStore.Inspector.Common.Search;
+using EventStore.Inspector.Common.Analysis;
 using Serilog;
 
 namespace EventStore.Inspector
@@ -8,15 +9,19 @@ namespace EventStore.Inspector
     {
         public static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsedAsync(options => {
-
-                var connectionOptions = OptionsTranslator.ConnectionOptionsFrom(options);
-                var settings = OptionsTranslator.From(options);
-
-                Log.Logger = Logging.For(options);
-
-                return Search.Create(connectionOptions).For(settings);
-            }).Wait();
+            Parser.Default.ParseArguments<SearchOptions, AnalyseOptions>(args)
+                .WithParsed<SearchOptions>(options => {
+                    Log.Logger = Logging.For(options);
+                    Search
+                        .Create(OptionsTranslator.ConnectionOptionsFrom(options))
+                        .For(OptionsTranslator.From(options)).Wait();
+                })
+                .WithParsed<AnalyseOptions>(options => {
+                    Log.Logger = Logging.For(options);
+                    Analysis
+                        .Create(OptionsTranslator.ConnectionOptionsFrom(options))
+                        .For(OptionsTranslator.From(options)).Wait();
+                });
         }
     }
 }

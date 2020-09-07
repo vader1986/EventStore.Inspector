@@ -1,10 +1,9 @@
 ﻿using EventStore.Inspector.Common.Infrastructure;
-using EventStore.Inspector.Common.Processing;
-using EventStore.Inspector.Common.SearchFilters;
+using EventStore.Inspector.Common.Search;
 using FakeItEasy;
 using NUnit.Framework;
 
-namespace EventStore.Inspector.Common.Tests.Processing
+namespace EventStore.Inspector.Common.Tests.Search
 {
     [TestFixture]
     public class JsonEventEvaluatorTests

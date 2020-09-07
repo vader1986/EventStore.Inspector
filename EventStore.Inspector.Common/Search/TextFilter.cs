@@ -1,4 +1,4 @@
-﻿namespace EventStore.Inspector.Common.SearchFilters
+﻿namespace EventStore.Inspector.Common.Search
 {
     public class TextFilter : ISearchFilter
     {

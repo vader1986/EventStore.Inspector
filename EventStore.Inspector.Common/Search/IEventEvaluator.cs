@@ -1,6 +1,6 @@
 ﻿using EventStore.Inspector.Common.Infrastructure;
 
-namespace EventStore.Inspector.Common.Processing
+namespace EventStore.Inspector.Common.Search
 {
     public interface IEventEvaluator
     {

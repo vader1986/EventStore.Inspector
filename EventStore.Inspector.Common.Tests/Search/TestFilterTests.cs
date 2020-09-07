@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using EventStore.Inspector.Common.SearchFilters;
+using EventStore.Inspector.Common.Search;
 
-namespace EventStore.Inspector.Common.Tests.SearchFilters
+namespace EventStore.Inspector.Common.Tests.Search
 {
     [TestFixture]
     public class TestFilterTests

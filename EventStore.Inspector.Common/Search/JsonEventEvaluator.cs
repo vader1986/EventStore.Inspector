@@ -1,7 +1,6 @@
 ﻿using EventStore.Inspector.Common.Infrastructure;
-using EventStore.Inspector.Common.SearchFilters;
 
-namespace EventStore.Inspector.Common.Processing
+namespace EventStore.Inspector.Common.Search
 {
     public class JsonEventEvaluator : IEventEvaluator
     {

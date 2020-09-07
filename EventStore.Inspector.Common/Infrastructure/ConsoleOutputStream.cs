@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EventStore.Inspector.Common.Processing
+namespace EventStore.Inspector.Common.Infrastructure
 {
     public class ConsoleOutputStream : IOutputStream
     {

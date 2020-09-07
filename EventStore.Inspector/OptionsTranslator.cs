@@ -1,13 +1,11 @@
 ﻿using System.Linq;
-using EventStore.Inspector.Common;
-using EventStore.Inspector.Common.Infrastructure;
-using EventStore.Inspector.Common.SearchFilters;
+using EventStore.Inspector.Common.Search;
 
 namespace EventStore.Inspector
 {
     public static class OptionsTranslator
     {
-        public static Options From(CommandLineOptions options)
+        public static Common.Search.SearchOptions From(SearchOptions options)
         {
             var propertyFilters = options.SearchProperty.Select(p => p.Split(':')).Select(s => new JsonPropertyFilter(s[0], s[1]));
             var textFilters = options.SearchText.Select(p => new TextFilter(p));
@@ -15,16 +13,21 @@ namespace EventStore.Inspector
 
             var allFilters = propertyFilters.Concat<ISearchFilter>(textFilters).Concat(regexFilters);
 
-            return new Options(
+            return new Common.Search.SearchOptions(
                 allFilters,
                 options.Stream,
                 options.OutputFormat,
                 options.Aggregation);
         }
 
-        public static ConnectionOptions ConnectionOptionsFrom(CommandLineOptions options)
+        public static Common.Analysis.AnalysisOptions From(AnalyseOptions options)
         {
-            return new ConnectionOptions(
+            return new Common.Analysis.AnalysisOptions(options.EventTypes);
+        }
+
+        public static Common.Infrastructure.ConnectionOptions ConnectionOptionsFrom(ConnectionOptions options)
+        {
+            return new Common.Infrastructure.ConnectionOptions(
                 options.ConnectionString,
                 options.ReadForward,
                 options.BatchSize,

@@ -1,4 +1,4 @@
-﻿namespace EventStore.Inspector.Common.Processing
+﻿namespace EventStore.Inspector.Common.Infrastructure
 {
     public interface IOutputStream
     {

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using CommandLine;
 using EventStore.Inspector.Common;
+using EventStore.Inspector.Common.Search;
 using EventStore.Inspector.Common.Infrastructure;
 
 namespace EventStore.Inspector
 {
-    public class CommandLineOptions
+    public class ConnectionOptions
     {
         [Option('c', "connection", Required = false, HelpText = "Connection string for the EventStore.")]
         public string ConnectionString { get; set; } = "tcp://admin:changeit@localhost:1113";
@@ -16,6 +17,22 @@ namespace EventStore.Inspector
         [Option('s', "stream", Required = false, HelpText = "Event stream to inspect (default: $ce-all).")]
         public string Stream { get; set; } = "$ce-all";
 
+        [Option("batch", Required = false, HelpText = "Number of events to process within one batch (default: 100)")]
+        public int BatchSize { get; set; } = 100;
+
+        [Option("mode", Required = false, HelpText = "What to do after processing one batch: AwaitUserInput/Sleep/Continue (default: Sleep - sleep for 1s)")]
+        public BatchMode BatchMode { get; set; } = BatchMode.Sleep;
+
+        [Option("sleep", Required = false, HelpText = "Number of milliseconds to sleep after each batch (requires Sleep mode, default 500)")]
+        public int SleepIntervalMilliSeconds { get; set; } = 500;
+
+        [Option("forward", Required = false, HelpText = "Whether to start processing events from beginning or end of the stream (default: false)")]
+        public bool ReadForward { get; set; } = false;
+    }
+
+    [Verb("search", HelpText = "Search for events in a stream")]
+    public class SearchOptions : ConnectionOptions
+    {
         [Option('t', "text", Required = false, HelpText = "Text to search the event stream for.")]
         public IEnumerable<string> SearchText { get; set; } = new string[0];
 
@@ -30,17 +47,12 @@ namespace EventStore.Inspector
 
         [Option('a', "aggregate", Required = false, HelpText = "Specify how to aggregate multiple search functions: or/and (default: or).")]
         public AggregationMethod Aggregation { get; set; } = AggregationMethod.Or;
+    }
 
-        [Option("batch", Required = false, HelpText = "Number of events to process within one batch (default: 100)")]
-        public int BatchSize { get; set; } = 100;
-
-        [Option("mode", Required = false, HelpText = "What to do after processing one batch: AwaitUserInput/Sleep/Continue (default: Sleep - sleep for 1s)")]
-        public BatchMode BatchMode { get; set; } = BatchMode.Sleep;
-
-        [Option("sleep", Required = false, HelpText = "Number of milliseconds to sleep after each batch (requires Sleep mode, default 500)")]
-        public int SleepIntervalMilliSeconds { get; set; } = 500;
-
-        [Option("forward", Required = false, HelpText = "Whether to start processing events from beginning or end of the stream (default: false)")]
-        public bool ReadForward { get; set; } = false;
+    [Verb("analyse", HelpText = "Analyse stats for a particular stream")]
+    public class AnalyseOptions : ConnectionOptions
+    {
+        [Option('t', "type", Required = false, HelpText = "Specify a filter for event type (default: empty, any type is allowed).")]
+        public IEnumerable<string> EventTypes { get; set; } = new string[0];
     }
 }

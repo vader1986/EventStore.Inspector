@@ -10,9 +10,7 @@
     <PackageReference Include="FakeItEasy" Version="6.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SearchFilters\" />
-    <Folder Include="Validation\" />
-    <Folder Include="Processing\" />
+    <Folder Include="Search\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EventStore.Inspector.Common\EventStore.Inspector.Common.csproj" />

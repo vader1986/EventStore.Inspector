@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using FakeItEasy;
-using EventStore.Inspector.Common.Processing;
+using EventStore.Inspector.Common.Search;
 using EventStore.Inspector.Common.Infrastructure;
 
-namespace EventStore.Inspector.Common.Tests.Processing
+namespace EventStore.Inspector.Common.Tests.Search
 {
     [TestFixture]
     public class TextOutputGeneratorTests

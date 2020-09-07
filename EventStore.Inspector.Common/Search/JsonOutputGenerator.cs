@@ -1,7 +1,7 @@
 ﻿using EventStore.Inspector.Common.Infrastructure;
 using Newtonsoft.Json.Linq;
 
-namespace EventStore.Inspector.Common.Processing
+namespace EventStore.Inspector.Common.Search
 {
     public class JsonOutputGenerator : IEvaluationListener
     {

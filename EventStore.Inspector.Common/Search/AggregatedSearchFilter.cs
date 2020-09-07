@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EventStore.Inspector.Common.SearchFilters
+namespace EventStore.Inspector.Common.Search
 {
     public class AggregatedSearchFilter : ISearchFilter
     {
@@ -17,17 +17,12 @@ namespace EventStore.Inspector.Common.SearchFilters
 
         public bool IsMatch(string data)
         {
-            switch (_aggregationMethod)
+            return _aggregationMethod switch
             {
-                case AggregationMethod.And:
-                    return _searchFilters.All(f => f.IsMatch(data));
-
-                case AggregationMethod.Or:
-                    return _searchFilters.Any(f => f.IsMatch(data));
-
-                default:
-                    throw new InvalidOperationException($"Aggregation method {_aggregationMethod} is not supported.");
-            }
+                AggregationMethod.And => _searchFilters.All(f => f.IsMatch(data)),
+                AggregationMethod.Or => _searchFilters.Any(f => f.IsMatch(data)),
+                _ => throw new InvalidOperationException($"Aggregation method {_aggregationMethod} is not supported."),
+            };
         }
     }
 }

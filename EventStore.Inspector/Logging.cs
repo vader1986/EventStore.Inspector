@@ -4,7 +4,7 @@ namespace EventStore.Inspector
 {
     public static class Logging
     {
-        public static ILogger For(CommandLineOptions options)
+        public static ILogger For(ConnectionOptions options)
         {
             if (options.Verbose)
             {

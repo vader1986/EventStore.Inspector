@@ -1,15 +1,13 @@
 ﻿using System.Threading.Tasks;
 using EventStore.Inspector.Common.Infrastructure;
-using EventStore.Inspector.Common.Processing;
-using EventStore.Inspector.Common.SearchFilters;
 
-namespace EventStore.Inspector.Common
+namespace EventStore.Inspector.Common.Search
 {
     public class Search
     {
         private readonly IConnectionWrapper _connectionWrapper;
 
-        public Search(ConnectionOptions connectionOptions)
+        private Search(ConnectionOptions connectionOptions)
         {
             _connectionWrapper = new ConnectionWrapper(connectionOptions);
         }
@@ -19,7 +17,7 @@ namespace EventStore.Inspector.Common
             return new Search(connectionOptions);
         }
 
-        public async Task For(Options options)
+        public async Task For(SearchOptions options)
         {
             IEvaluationListener OutputGenerator(IOutputStream stream)
             {

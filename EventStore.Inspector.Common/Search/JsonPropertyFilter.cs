@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace EventStore.Inspector.Common.SearchFilters
+namespace EventStore.Inspector.Common.Search
 {
     public class JsonPropertyFilter : ISearchFilter
     {
