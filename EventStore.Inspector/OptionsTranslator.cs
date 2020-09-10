@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EventStore.Inspector.Common.Analysis;
 using EventStore.Inspector.Common.Search;
 
 namespace EventStore.Inspector
@@ -22,7 +23,7 @@ namespace EventStore.Inspector
 
         public static Common.Analysis.AnalysisOptions From(AnalyseOptions options)
         {
-            return new Common.Analysis.AnalysisOptions(options.EventTypes);
+            return new Common.Analysis.AnalysisOptions(options.EventTypes, Window.Events);
         }
 
         public static Common.Infrastructure.ConnectionOptions ConnectionOptionsFrom(ConnectionOptions options)

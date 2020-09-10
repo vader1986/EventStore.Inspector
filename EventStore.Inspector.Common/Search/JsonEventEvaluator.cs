@@ -2,7 +2,7 @@
 
 namespace EventStore.Inspector.Common.Search
 {
-    public class JsonEventEvaluator : IEventEvaluator
+    public class JsonEventEvaluator
     {
         private readonly IEvaluationListener _evaluationListener;
         private readonly ISearchFilter _searchFilter;

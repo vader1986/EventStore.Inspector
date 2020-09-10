@@ -50,6 +50,8 @@ namespace EventStore.Inspector.Common.Infrastructure
                 case BatchMode.Sleep:
                     await Task.Delay(_settings.BatchSleepInterval);
                     break;
+                default:
+                    throw new InvalidOperationException($"{_settings.BatchMode} is not supported");
             }
         }
 

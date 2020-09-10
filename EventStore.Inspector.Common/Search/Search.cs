@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EventStore.Inspector.Common.Infrastructure;
 
 namespace EventStore.Inspector.Common.Search
@@ -21,15 +22,13 @@ namespace EventStore.Inspector.Common.Search
         {
             IEvaluationListener OutputGenerator(IOutputStream stream)
             {
-                switch (options.OutputFormat)
+                return options.OutputFormat switch
                 {
-                    case OutputFormat.Text:
-                        return new TextOutputGenerator(stream);
-                    case OutputFormat.Json:
-                        return new JsonOutputGenerator(stream);
-                }
-
-                return default;
+                    OutputFormat.Text => new TextOutputGenerator(stream),
+                    OutputFormat.Json => new JsonOutputGenerator(stream),
+                    _ => throw new ArgumentOutOfRangeException(
+                        nameof(stream), $"{options.OutputFormat} not supported")
+                };
             }
 
             var outputStream = new ConsoleOutputStream();

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EventStore.Inspector.Common.Infrastructure
+﻿namespace EventStore.Inspector.Common.Infrastructure
 {
     public class ConnectionOptions
     {

@@ -21,7 +21,8 @@ namespace EventStore.Inspector.Common.Search
             {
                 AggregationMethod.And => _searchFilters.All(f => f.IsMatch(data)),
                 AggregationMethod.Or => _searchFilters.Any(f => f.IsMatch(data)),
-                _ => throw new InvalidOperationException($"Aggregation method {_aggregationMethod} is not supported."),
+                _ => throw new InvalidOperationException(
+                    $"Aggregation method {_aggregationMethod} is not supported."),
             };
         }
     }

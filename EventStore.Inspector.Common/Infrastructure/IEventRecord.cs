@@ -11,6 +11,6 @@
         long EventNumber { get; }
 
         string Body { get; }
-        string Metadata { get; }
+        string? Metadata { get; }
     }
 }

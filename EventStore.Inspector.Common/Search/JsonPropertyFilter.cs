@@ -16,18 +16,21 @@ namespace EventStore.Inspector.Common.Search
 
         public bool IsMatch(string data)
         {
-            var root = JObject.Parse(data);
-
-            if (root[_key] != null && root[_key].ToString() == _value)
+            bool IsMatchingObject(JToken token)
             {
-                return true;
+                if (!(token is JObject obj))
+                {
+                    return false;
+                }
+
+                var val = obj[_key];
+
+                return val != null && val.ToString() == _value;
             }
 
-            return root
-                .Descendants()
-                .Where(t => t is JObject)
-                .Where(t => t[_key] != null)
-                .Any(t => t[_key].ToString() == _value);
+            var root = JObject.Parse(data);
+
+            return IsMatchingObject(root) || root.Descendants().Any(IsMatchingObject);
         }
     }
 }

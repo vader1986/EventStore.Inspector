@@ -17,73 +17,20 @@ namespace EventStore.Inspector.Common.Infrastructure
             return new EventRecord(resolvedEvent);
         }
 
-        public bool IsValid
-        {
-            get
-            {
-                return _resolvedEvent.Event?.Data != null;
-            }
-        }
+        public bool IsValid => _resolvedEvent.Event?.Data != null;
 
-        public bool IsMetadata
-        {
-            get
-            {
-                return false; // ToDo
-            }
-        }
-        
-        public bool IsJson
-        {
-            get
-            {
-                return IsValid && _resolvedEvent.Event.IsJson;
-            }
-        }
+        public bool IsMetadata => false; // ToDo
 
-        public string Body
-        {
-            get
-            {
-                return Encoding.UTF8.GetString(_resolvedEvent.Event.Data);
-            }
-        }
+        public bool IsJson => IsValid && _resolvedEvent.Event.IsJson;
 
-        public string Metadata
-        {
-            get
-            {
-                if (_resolvedEvent.Event.Metadata == null)
-                {
-                    return null;
-                }
+        public string Body => Encoding.UTF8.GetString(_resolvedEvent.Event.Data);
 
-                return Encoding.UTF8.GetString(_resolvedEvent.Event.Metadata);
-            }
-        }
+        public string? Metadata => _resolvedEvent.Event.Metadata == null ? null : Encoding.UTF8.GetString(_resolvedEvent.Event.Metadata);
 
-        public string EventStreamId
-        {
-            get
-            {
-                return _resolvedEvent.Event.EventStreamId;
-            }
-        }
+        public string EventStreamId => _resolvedEvent.Event.EventStreamId;
 
-        public string EventType
-        {
-            get
-            {
-                return _resolvedEvent.Event.EventType;
-            }
-        }
+        public string EventType => _resolvedEvent.Event.EventType;
 
-        public long EventNumber
-        {
-            get
-            {
-                return _resolvedEvent.Event.EventNumber;
-            }
-        }
+        public long EventNumber => _resolvedEvent.Event.EventNumber;
     }
 }
