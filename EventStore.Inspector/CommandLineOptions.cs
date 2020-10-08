@@ -42,7 +42,7 @@ namespace EventStore.Inspector
         [Option('r', "regex", Required = false, HelpText = "Specify a regular expression to search for.")]
         public IEnumerable<string> SearchRegex { get; set; } = new string[0];
 
-        [Option('o', "output", Required = false, HelpText = "Output formats: text/json (default: text).")]
+        [Option('o', "output", Required = false, HelpText = "Output formats: Text/Json (default: text).")]
         public OutputFormat OutputFormat { get; set; } = OutputFormat.Text;
 
         [Option('a', "aggregate", Required = false, HelpText = "Specify how to aggregate multiple search functions: or/and (default: or).")]
