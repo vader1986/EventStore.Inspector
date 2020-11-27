@@ -3,16 +3,16 @@ Command line tool for searching through and analyzing event streams of EventStor
 
 # Features
 * Search event streams for
-** any (free) text
-** json attribute/value pairs
-** regular expressions
+    * any (free) text
+    * json attribute/value pairs
+    * regular expressions
 * List matches in
-** JSON
-** text format
+    * JSON
+    * text format
 * Throttle ES access by
-** limiting #events to read per batch
-** sleeping period after each batch
-** wait for user interaction after batch
+    * limiting #events to read per batch
+    * sleeping period after each batch
+    * wait for user interaction after batch
 
 # Usage
 ```
