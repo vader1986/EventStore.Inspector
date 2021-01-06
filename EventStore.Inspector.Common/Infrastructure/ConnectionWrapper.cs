@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EventStore.ClientAPI;
+using EventStore.Inspector.Common.Infrastructure.Throttling;
+using EventStore.Inspector.Common.Support;
 using Serilog;
 
 namespace EventStore.Inspector.Common.Infrastructure
 {
-    public class ConnectionWrapper : IConnectionWrapper
+    public class ConnectionWrapper : IConnectionWrapper, IDisposable
     {
         private const bool ResolveLinkTos = true;
 
         private readonly Serilog.ILogger _log = Log.ForContext<ConnectionWrapper>();
-        private readonly Lazy<Task<IEventStoreConnection>> _connection;
+        private readonly AsyncLazy<IEventStoreConnection> _connection;
         private readonly ConnectionOptions _settings;
+        private readonly IThrottle _throttle;
 
-        public ConnectionWrapper(ConnectionOptions options)
+        public ConnectionWrapper(ConnectionOptions options, IThrottleFactory? throttleFactory = default)
         {
+            throttleFactory = throttleFactory ?? new ThrottleFactory();
+
             _settings = options;
-            _connection = ConnectionFactory.Create(options.ConnectionString);
+            _connection = new AsyncLazy<IEventStoreConnection>(() => options.Connection);
+            _throttle = throttleFactory.Create(options.ThrottleOptions);
         }
 
         private async Task<StreamEventsSlice> ReadStream(IEventStoreConnection connection, string stream, long offset)
@@ -36,28 +42,9 @@ namespace EventStore.Inspector.Common.Infrastructure
             return _settings.ReadForward ? StreamPosition.Start : StreamPosition.End;
         }
 
-        private async Task BatchBreak()
-        {
-            switch (_settings.BatchMode)
-            {
-                case BatchMode.AwaitUserInput:
-                    await Console.In.ReadLineAsync();
-                    break;
-
-                case BatchMode.Continue:
-                    break;
-
-                case BatchMode.Sleep:
-                    await Task.Delay(_settings.BatchSleepInterval);
-                    break;
-                default:
-                    throw new InvalidOperationException($"{_settings.BatchMode} is not supported");
-            }
-        }
-
         public async Task ConnectToStreamAsync(string stream, Action<IEventRecord> onEventRead)
         {
-            var connection = await _connection.Value;
+            var connection = await _connection;
             var offset = InitialStreamPosition();
 
             StreamEventsSlice events;
@@ -72,7 +59,6 @@ namespace EventStore.Inspector.Common.Infrastructure
                     {
                         onEventRead?.Invoke(EventRecord.From(resolvedEvent));
                     }
-
 
                     if (events.NextEventNumber == -1)
                     {
@@ -92,9 +78,14 @@ namespace EventStore.Inspector.Common.Infrastructure
                     break;
                 }
 
-                await BatchBreak();
+                await _throttle.Throttle();
             }
             while (!events.IsEndOfStream);
+        }
+
+        public void Dispose()
+        {
+            _connection.Value.GetAwaiter().GetResult().Dispose();
         }
     }
 }

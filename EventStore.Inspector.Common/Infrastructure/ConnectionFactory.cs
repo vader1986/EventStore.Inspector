@@ -19,9 +19,16 @@ namespace EventStore.Inspector.Common.Infrastructure
             return connection;
         }
 
-        public static Lazy<Task<IEventStoreConnection>> Create(string connectionString)
+        /// <summary>
+        /// Creates a new <see cref="IEventStoreConnection"/> instance for the specified
+        /// connection string. 
+        /// </summary>
+        /// <param name="connectionString">Connection string pointing to a running
+        /// EventStoreDB instance</param>
+        /// <returns>A new <see cref="IEventStoreConnection"/> instance.</returns>
+        public static ValueTask<IEventStoreConnection> Create(string connectionString)
         {
-            return new Lazy<Task<IEventStoreConnection>>(() => CreateConnection(connectionString));
+            return new ValueTask<IEventStoreConnection>(CreateConnection(connectionString));
         }
     }
 }

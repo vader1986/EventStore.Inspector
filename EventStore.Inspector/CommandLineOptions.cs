@@ -20,7 +20,7 @@ namespace EventStore.Inspector
         [Option("batch", Required = false, HelpText = "Number of events to process within one batch (default: 100)")]
         public int BatchSize { get; set; } = 100;
 
-        [Option("mode", Required = false, HelpText = "What to do after processing one batch: AwaitUserInput/Sleep/Continue (default: Sleep - sleep for 1s)")]
+        [Option("mode", Required = false, HelpText = "What to do after processing one batch: AwaitUserInput/Sleep/Continue (default: Sleep)")]
         public BatchMode BatchMode { get; set; } = BatchMode.Sleep;
 
         [Option("sleep", Required = false, HelpText = "Number of milliseconds to sleep after each batch (requires Sleep mode, default 500)")]

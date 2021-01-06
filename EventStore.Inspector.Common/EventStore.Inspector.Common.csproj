@@ -8,6 +8,8 @@
   <ItemGroup>
     <Folder Include="Search\" />
     <Folder Include="Infrastructure\" />
+    <Folder Include="Support\" />
+    <Folder Include="Infrastructure\Throttling\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EventStore.Client" Version="5.0.9" />

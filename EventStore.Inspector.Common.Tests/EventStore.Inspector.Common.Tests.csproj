@@ -11,8 +11,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Search\" />
+    <Folder Include="Support\" />
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Infrastructure\Throttling\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EventStore.Inspector.Common\EventStore.Inspector.Common.csproj" />
+    <ProjectReference Include="..\EventStore.Inspector.Testing\EventStore.Inspector.Testing.csproj" />
   </ItemGroup>
 </Project>

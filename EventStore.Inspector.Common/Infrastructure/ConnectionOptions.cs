@@ -1,24 +1,35 @@
-﻿namespace EventStore.Inspector.Common.Infrastructure
+﻿using System;
+using System.Threading.Tasks;
+using EventStore.ClientAPI;
+using EventStore.Inspector.Common.Infrastructure.Throttling;
+
+namespace EventStore.Inspector.Common.Infrastructure
 {
     public class ConnectionOptions
     {
-        public string ConnectionString { get; }
+        public ValueTask<IEventStoreConnection> Connection { get; }
 
         public bool ReadForward { get; }
 
         public int BatchSize { get; }
 
-        public BatchMode BatchMode { get; }
+        public ThrottleOptions ThrottleOptions { get; }
 
-        public int BatchSleepInterval { get; }
-
-        public ConnectionOptions(string connectionString, bool readForward, int batchSize, BatchMode batchMode, int sleepIntervalMilliSeconds)
+        private ConnectionOptions(bool readForward, int batchSize, ThrottleOptions throttleOptions)
         {
-            ConnectionString = connectionString;
             ReadForward = readForward;
-            BatchMode = batchMode;
             BatchSize = batchSize;
-            BatchSleepInterval = sleepIntervalMilliSeconds;
+            ThrottleOptions = throttleOptions;
+        }
+
+        public ConnectionOptions(string connectionString, bool readForward, int batchSize, ThrottleOptions throttleOptions) : this(readForward, batchSize, throttleOptions)
+        {
+            Connection = ConnectionFactory.Create(connectionString);
+        }
+
+        public ConnectionOptions(IEventStoreConnection connection, bool readForward, int batchSize, ThrottleOptions throttleOptions) : this(readForward, batchSize, throttleOptions)
+        {
+            Connection = new ValueTask<IEventStoreConnection>(connection);
         }
     }
 }

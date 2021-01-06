@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using EventStore.Inspector.Common.Analysis;
 using EventStore.Inspector.Common.Search;
+using EventStore.Inspector.Common.Infrastructure.Throttling;
 
 namespace EventStore.Inspector
 {
@@ -32,8 +33,9 @@ namespace EventStore.Inspector
                 options.ConnectionString,
                 options.ReadForward,
                 options.BatchSize,
-                options.BatchMode,
-                options.SleepIntervalMilliSeconds);
+                new ThrottleOptions(
+                    options.BatchMode,
+                    options.SleepIntervalMilliSeconds));
         }
     }
 }

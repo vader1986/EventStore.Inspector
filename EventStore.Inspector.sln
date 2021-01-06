@@ -8,6 +8,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStore.Inspector.Common
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStore.Inspector.Common.Tests", "EventStore.Inspector.Common.Tests\EventStore.Inspector.Common.Tests.csproj", "{5DE4D908-F273-41FB-BA67-B7A6B11EEEF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStore.Inspector.Testing", "EventStore.Inspector.Testing\EventStore.Inspector.Testing.csproj", "{51B23A87-A61D-41FB-BA3D-169D49AC8166}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{5DE4D908-F273-41FB-BA67-B7A6B11EEEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DE4D908-F273-41FB-BA67-B7A6B11EEEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DE4D908-F273-41FB-BA67-B7A6B11EEEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51B23A87-A61D-41FB-BA3D-169D49AC8166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B23A87-A61D-41FB-BA3D-169D49AC8166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B23A87-A61D-41FB-BA3D-169D49AC8166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51B23A87-A61D-41FB-BA3D-169D49AC8166}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
