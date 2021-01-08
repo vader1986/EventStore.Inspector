@@ -18,7 +18,7 @@ namespace EventStore.Inspector.Testing.Events
         {
             var body = Encoding.UTF8.GetBytes(@event.Body);
             var metadata = @event.Metadata != null ? Encoding.UTF8.GetBytes(@event.Metadata) : new byte[0];
-            var data = new EventData(Guid.NewGuid(), @event.EventType, @event.IsJson, body, metadata);
+            var data = new EventData(@event.Id, @event.EventType, @event.IsJson, body, metadata);
 
             await _connection.AppendToStreamAsync(@event.Stream, ExpectedVersion.Any, data);
         }

@@ -1,7 +1,10 @@
-﻿namespace EventStore.Inspector.Testing.Events
+﻿using System;
+
+namespace EventStore.Inspector.Testing.Events
 {
     public class EventWrapper
     {
+        public Guid Id { get; } = Guid.NewGuid();
         public string Body { get; }
         public string Stream { get; }
         public string EventType { get; }

@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.Embedded;
+using EventStore.Common.Options;
 using EventStore.Core;
+using EventStore.Inspector.Testing.Bus;
 using EventStore.Inspector.Testing.Events;
 
 namespace EventStore.Inspector.Testing
@@ -11,6 +13,7 @@ namespace EventStore.Inspector.Testing
     {
         private readonly ClusterVNode _cluster;
         private readonly EventStoreAppender _appender;
+        private readonly EventQueue _queue;
         private bool _isDisposed;
 
         public IEventStoreConnection Connection { get; }
@@ -20,6 +23,7 @@ namespace EventStore.Inspector.Testing
             Connection = connection;
             _cluster = cluster;
             _appender = new EventStoreAppender(connection);
+            _queue = new EventQueue(new Bus<ResolvedEvent>(), connection);
         }
 
         public static async Task<EventStoreRunner> Start()
@@ -27,7 +31,7 @@ namespace EventStore.Inspector.Testing
             var node = EmbeddedVNodeBuilder
                 .AsSingleNode()
                 .OnDefaultEndpoints()
-                .RunProjections(Common.Options.ProjectionType.All)
+                .RunProjections(ProjectionType.All)
                 .RunInMemory()
                 .Build();
 
@@ -39,6 +43,10 @@ namespace EventStore.Inspector.Testing
         public async Task Write(EventWrapper @event)
         {
             await _appender.Append(@event);
+
+            _queue.WaitForNext(re => re.Event != null &&
+                                     re.Event.EventType == @event.EventType &&
+                                     re.Event.EventId == @event.Id);
         }
 
         public void Dispose()
@@ -47,6 +55,7 @@ namespace EventStore.Inspector.Testing
             {
                 Connection.Dispose();
                 _cluster.StopAsync().Wait(TimeSpan.FromSeconds(5));
+                _queue.Dispose();
                 _isDisposed = true;
             }
         }

@@ -13,8 +13,9 @@ namespace EventStore.Inspector
                 .WithParsed<SearchOptions>(options => {
                     Environment.BindOptions(options);
                     Log.Logger = Logging.For(options);
-                    Search
-                        .Create(OptionsTranslator.ConnectionOptionsFrom(options))
+                    SearchBuilder
+                        .From(OptionsTranslator.ConnectionOptionsFrom(options))
+                        .Build()
                         .For(OptionsTranslator.From(options)).Wait();
                 })
                 .WithParsed<AnalyseOptions>(options => {

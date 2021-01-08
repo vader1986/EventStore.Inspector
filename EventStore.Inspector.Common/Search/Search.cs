@@ -7,15 +7,12 @@ namespace EventStore.Inspector.Common.Search
     public class Search
     {
         private readonly IConnectionWrapper _connectionWrapper;
+        private readonly IOutputStream _outputStream;
 
-        private Search(ConnectionOptions connectionOptions)
+        public Search(IConnectionWrapper connectionWrapper, IOutputStream outputStream)
         {
-            _connectionWrapper = new ConnectionWrapper(connectionOptions);
-        }
-
-        public static Search Create(ConnectionOptions connectionOptions)
-        {
-            return new Search(connectionOptions);
+            _connectionWrapper = connectionWrapper;
+            _outputStream = outputStream;
         }
 
         public async Task For(SearchOptions options)
@@ -31,8 +28,7 @@ namespace EventStore.Inspector.Common.Search
                 };
             }
 
-            var outputStream = new ConsoleOutputStream();
-            var output = OutputGenerator(outputStream);
+            var output = OutputGenerator(_outputStream);
 
             var aggregatedFilter = new AggregatedSearchFilter(options.AggregationMethod, options.SearchFilters);
             var evaluator = new JsonEventEvaluator(aggregatedFilter, output);
