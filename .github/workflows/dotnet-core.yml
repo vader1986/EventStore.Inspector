@@ -23,3 +23,9 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Publish EventStore.Inspector.Common
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: EventStore.Inspector.Common/EventStore.Inspector.Common.csproj
+        PACKAGE_NAME: EventStore.Inspector.Common
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
