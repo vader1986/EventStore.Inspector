@@ -26,4 +26,4 @@ jobs:
     - name: Pack NuGet
       run: dotnet pack -c Release -o out  
     - name: Publish NuGet
-      run: dotnet nuget push ./EventStore.Inspector.Common/out/EventStore.Inspector.Common.nupkg --skip-duplicate --no-symbols true --symbol-api-key ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push ./EventStore.Inspector/out/EventStore.Inspector.Common.*.nupkg --skip-duplicate --no-symbols true --symbol-api-key ${{secrets.NUGET_API_KEY}}
