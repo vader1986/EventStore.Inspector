@@ -25,3 +25,5 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Pack NuGet
       run: dotnet pack -c Release -o . --no-build  
+    - name: Push NuGet
+      run: dotnet nuget push EventStore.Inspector.Common.*.nupkg --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
