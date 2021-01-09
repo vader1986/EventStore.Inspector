@@ -23,22 +23,17 @@ namespace EventStore.Inspector.Testing.Bus
 
         public void WaitForNext(Predicate<T> predicate)
         {
-            var finished = Task.Run(() =>
+            if (_bus.TryTake(out var item, _timeout))
             {
-                while (_bus.TryTake(out T item, -1))
+                if (!predicate(item))
                 {
-                    if (predicate(item))
-                    {
-                        break;
-                    }
+                    throw new ItemNotFoundException<T>();
                 }
-            }).Wait(_timeout);
-
-            if (!finished)
+            }
+            else
             {
                 throw new ItemNotFoundException<T>(_timeout);
             }
         }
-
     }
 }

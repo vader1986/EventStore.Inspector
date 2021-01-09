@@ -11,7 +11,8 @@ namespace EventStore.Inspector.Common.Infrastructure
     {
         private const bool ResolveLinkTos = true;
 
-        private readonly Serilog.ILogger _log = Log.ForContext<ConnectionWrapper>();
+        private static readonly Serilog.ILogger Log = Serilog.Log.ForContext<ConnectionWrapper>();
+
         private readonly AsyncLazy<IEventStoreConnection> _connection;
         private readonly ConnectionOptions _settings;
         private readonly IThrottle _throttle;
@@ -69,12 +70,12 @@ namespace EventStore.Inspector.Common.Infrastructure
                         
                     if (offset < 0)
                     {
-                        _log.Warning("Invalid event number {NextEventNumber} for next batch", offset);
+                        Log.Warning("Invalid event number {NextEventNumber} for next batch", offset);
                     }
                 }
                 else
                 {
-                    _log.Error("Failed to read events at {Stream}/{EventNumber}", stream, offset);
+                    Log.Error("Failed to read events at {Stream}/{EventNumber}", stream, offset);
                     break;
                 }
 

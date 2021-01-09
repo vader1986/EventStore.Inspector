@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using EventStore.ClientAPI;
-using EventStore.Inspector.Common.Extensions;
 using NUnit.Framework;
 
 namespace EventStore.Inspector.Testing.Bus
@@ -9,22 +11,22 @@ namespace EventStore.Inspector.Testing.Bus
     public class EventQueue : IDisposable
     {
         private readonly Bus<ResolvedEvent> _bus;
-        private readonly IDisposable _subscription;
+        private readonly IEnumerable<EventStoreSubscription> _subscriptions;
 
-        public EventQueue(Bus<ResolvedEvent> bus, IEventStoreConnection connection)
+        public EventQueue(Bus<ResolvedEvent> bus, IEventStoreConnection connection, IEnumerable<string> streams)
         {
             _bus = bus;
-            _subscription = connection.AllStream().Subscribe(AddEvent);
+            _subscriptions = streams
+                .Select(stream => connection.SubscribeToStreamAsync(stream, true, (_, e) => _bus.Add(e)))
+                .Select(task => task.GetAwaiter().GetResult()).ToList();
         }
 
         public void Dispose()
         {
-            _subscription.Dispose();
-        }
-
-        private void AddEvent(ResolvedEvent @event)
-        {
-            _bus.Add(@event);
+            foreach (var subscription in _subscriptions)
+            {
+                subscription.Dispose();
+            }
         }
 
         public void WaitForType(string eventType)
