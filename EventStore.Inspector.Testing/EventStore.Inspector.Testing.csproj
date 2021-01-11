@@ -2,6 +2,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>EventStore.Inspector.Testing</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Timm Hoffmeister</Authors>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="EventStore.Client.Embedded" Version="20.6.0" />
     <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />

@@ -5,6 +5,11 @@
     <Nullable>enable</Nullable>
     <NullableContextOptions>enable</NullableContextOptions>
   </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>EventStore.Inspector.Common</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Timm Hoffmeister</Authors>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Search\" />
     <Folder Include="Infrastructure\" />
