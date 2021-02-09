@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using EventStore.Inspector.Common.Infrastructure.Throttling;
 using EventStore.Inspector.Common.Support;
-using Serilog;
 
 namespace EventStore.Inspector.Common.Infrastructure
 {
@@ -19,7 +18,7 @@ namespace EventStore.Inspector.Common.Infrastructure
 
         public ConnectionWrapper(ConnectionOptions options, IThrottleFactory? throttleFactory = default)
         {
-            throttleFactory = throttleFactory ?? new ThrottleFactory();
+            throttleFactory ??= new ThrottleFactory();
 
             _settings = options;
             _connection = new AsyncLazy<IEventStoreConnection>(() => options.Connection);
